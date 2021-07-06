@@ -1,6 +1,7 @@
 class GameBoard {
+
   constructor(rowNum, colNum, bombNum) {
-    this.board = [[]];
+    this.board = [];
     this.rowNum = rowNum;
     this.colNum = colNum;
     this.bombNum = bombNum;
@@ -10,18 +11,22 @@ class GameBoard {
     this.generateBoard();
   }
 
-
   generateBoard() {
-    for (let r=0; r<this.rowNum; r++)
-      //"make a cell"
-      for(let c=0; c<this.colNum; c++)
+
+    //this will create a board with dimension rowNum by colNum of default cells
+    for (let r=0; r<this.rowNum; r++) {
+      let temp = [];
+      this.board.push(temp);
+      for(let c=0; c<this.colNum; c++) {
+        this.board[r].push(new Cell());
+      }
+    }
+    //this will place bombs at random locations
     for (let i =0; i<this.bombNum; i++) {
       let row = Math.floor(Math.random()*this.rowNum);
       let col = Math.floor(Math.random()*this.colNum);
-      this.board[row][col] = new Cell();
       this.board[row][col].isBomb = true; 
     }
-
   }
 }
 
@@ -34,4 +39,5 @@ class Cell {
     this.isVisible = false;
   }
 }
+
 
