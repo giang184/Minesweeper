@@ -14,20 +14,44 @@ class GameBoard {
   generateBoard() {
 
     //this will create a board with dimension rowNum by colNum of default cells
-    for (let r=0; r<this.rowNum; r++) {
+    for (let r=0; r<this.rowNum + 2; r++) {
       let temp = [];
       this.board.push(temp);
-      for(let c=0; c<this.colNum; c++) {
+      for(let c=0; c<this.colNum + 2; c++) { 
         this.board[r].push(new Cell());
       }
     }
+
     //this will place bombs at random locations
-    for (let i =0; i<this.bombNum; i++) {
-      let row = Math.floor(Math.random()*this.rowNum);
-      let col = Math.floor(Math.random()*this.colNum);
-      this.board[row][col].isBomb = true; 
+    for (let i =1; i<this.bombNum+1; i++) {
+      let row = 1 + Math.floor(Math.random()*this.rowNum);
+      let col = 1 + Math.floor(Math.random()*this.colNum);
+      if(this.board[row][col].isBomb === true) {
+        i--; 
+      }
+      else {
+        this.board[row][col].isBomb = true;
+      }
     }
+    
+    this.bombDetector();
   }
+  bombDetector() {
+    for(let r=1; r<=this.rowNum; r++) {
+      for(let c=1; c<=this.colNum; c++) {
+        if(this.board[r][c].isBomb === true) {
+          this.board[r][c-1].adjacentBombs++; //done
+          this.board[r][c+1].adjacentBombs++; //done
+          this.board[r-1][c].adjacentBombs++; //done
+          this.board[r+1][c].adjacentBombs++; //done
+          this.board[r-1][c-1].adjacentBombs++; //done
+          this.board[r+1][c+1].adjacentBombs++; //done
+          this.board[r+1][c-1].adjacentBombs++; //done
+          this.board[r-1][c+1].adjacentBombs++; //done
+        }
+      }
+    }
+  } 
 }
 
 class Cell {
@@ -39,5 +63,3 @@ class Cell {
     this.isVisible = false;
   }
 }
-
-
