@@ -10,7 +10,11 @@ class GameBoard {
     this.generateBoard();
   }
 
+
   generateBoard() {
+    for (let r=0; r<this.rowNum; r++)
+      //"make a cell"
+      for(let c=0; c<this.colNum; c++)
     for (let i =0; i<this.bombNum; i++) {
       let row = Math.floor(Math.random()*this.rowNum);
       let col = Math.floor(Math.random()*this.colNum);
