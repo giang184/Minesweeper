@@ -15,10 +15,26 @@
 }
 
 .cell {
+  cursor: pointer;
 
   display: flex;
   align-items: center;
   justify-content: center;
 
   background-color: #CCC;
+}
+
+dl {
+  display: grid;
+  grid-template-columns: auto 1fr;
+  gap: 5px;
+}
+
+dt {
+  font-weight: bold;
+  text-align: right;
+}
+
+dd {
+  margin: 0;
 }

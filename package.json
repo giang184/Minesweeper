@@ -20,6 +20,7 @@
     "eslint": "^7.29.0",
     "eslint-loader": "^4.0.2",
     "html-webpack-plugin": "^5.3.2",
+    "jquery": "^3.6.0",
     "purecss": "^2.0.6",
     "regenerator-runtime": "^0.13.7",
     "style-loader": "^3.0.0",

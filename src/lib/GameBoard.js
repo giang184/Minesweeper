@@ -11,7 +11,7 @@ export class GameBoard {
     this.generateBoard();
   }
 
-  //tested
+  // tested
   generateBoard () {
     // this will create a board with dimension rowNum by colNum of default cells
     for (let r = 0; r < this.rowNum + 2; r++) {
@@ -36,7 +36,7 @@ export class GameBoard {
     this.bombDetector();
   }
 
-  //tested
+  // tested
   getNeighbors (r, c) {
     const neighbors = [];
 
@@ -66,7 +66,7 @@ export class GameBoard {
     return neighbors;
   }
 
-  //tested
+  // tested
   bombDetector () {
     for (let r = 1; r <= this.rowNum; r++) {
       for (let c = 1; c <= this.colNum; c++) {
@@ -78,8 +78,8 @@ export class GameBoard {
       }
     }
   }
-  
-  //tested
+
+  // tested
   clearing (r, c) {
     const neighborCells = this.getNeighbors(r, c);
 
