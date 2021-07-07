@@ -7,7 +7,7 @@ const renderStats = (game) => {
   const elStatsOpenCells = $('#output-open-cells');
 
   const flagsPlanted = 0; // todo: actually get this later
-  const openCells = 0; // todo: actually get this later
+  const openCells = game.numofOpenCells; // todo: actually get this later
 
   elStatsFlagsPlanted.text(flagsPlanted);
   elStatsOpenCells.text(openCells);
@@ -25,18 +25,35 @@ const renderBoard = (game) => {
       // ternary operator : condition ? valueIfTrue : valueIfFalse
       // const cellContent = cell.isBomb ? '.' : cell.adjacentBombs;
 
-      let cellContent = '';
-      if (cell.isBomb) {
-        cellContent = '.';
-      } else {
-        cellContent = cell.adjacentBombs;
-      }
-
-      elBoard.append(`
+      if (cell.isVisible) {
+        let cellContent = '';
+        if (cell.isBomb) {
+          cellContent = '.';
+        } else {
+          cellContent = cell.adjacentBombs;
+        }
+        elBoard.append(`
+          <div class="cell" data-row="${r}" data-col="${c}">
+            ${cellContent}
+          </div>`
+        );
+      } else if (cell.hasFlag) {
+        elBoard.append(`
         <div class="cell" data-row="${r}" data-col="${c}">
-          ${cellContent}
-        </div>`
-      );
+          f
+        </div>`);
+      } else if (cell.hasQuestionMark) {
+        elBoard.append(`
+      <div class="cell" data-row="${r}" data-col="${c}">
+          ?
+      </div>`);
+      } else {
+        elBoard.append(`
+          <div class="cell" data-row="${r}" data-col="${c}">
+            
+          </div>`
+        );
+      }
     }
   }
 };
@@ -45,12 +62,11 @@ const addEventListeners = (game) => {
   const elCells = $('.cell');
 
   elCells.on('click', function (event) {
-    // this is when we click, do something with game
     const el = $(this);
     const row = el.data('row');
     const col = el.data('col');
 
-    console.log('YOU CLICKED ME', row, col);
+    game.checkCell(row, col);
 
     renderBoard(game);
     renderStats(game);
@@ -59,12 +75,11 @@ const addEventListeners = (game) => {
 
   elCells.on('contextmenu', function (event) {
     event.preventDefault();
-    // this is when we right click, do something with game
     const el = $(this);
     const row = el.data('row');
     const col = el.data('col');
 
-    console.log('YOU RIGHT CLICKED ME', row, col);
+    game.markCell(row, col);
 
     renderBoard(game);
     renderStats(game);
@@ -73,7 +88,7 @@ const addEventListeners = (game) => {
 };
 
 const main = () => {
-  const game = new GameBoard(5, 7, 10);
+  const game = new GameBoard(5, 7, 1);
   console.log(game);
 
   renderBoard(game);

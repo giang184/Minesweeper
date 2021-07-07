@@ -83,7 +83,7 @@ export class GameBoard {
   clearing (r, c) {
     const neighborCells = this.getNeighbors(r, c);
 
-    neighborCells.forEach((element) => {
+    neighborCells.forEach((element) => { // [c,c,c,c,c]
       if (element[0].isVisible === false) {
         element[0].isVisible = true;
         this.numofOpenCells++;
@@ -97,11 +97,11 @@ export class GameBoard {
   checkCell (r, c) {
     if (this.board[r][c].isVisible === false && this.board[r][c].hasFlag === false) {
       this.checkWinGame();
-      this.checkLoseGame();
+      this.checkLoseGame(r, c);
+      this.board[r][c].isVisible = true;
       if (this.board[r][c].adjacentBombs === 0) {
         this.clearing(r, c);
       }
-      this.board[r][c].isVisible = true;
       this.numofOpenCells++;
     }
   }
@@ -109,12 +109,15 @@ export class GameBoard {
   markCell (r, c) {
     if (this.board[r][c].isVisible === false) {
       if (this.board[r][c].hasFlag === true) {
+        console.log('flag working?');
         this.board[r][c].hasFlag = false;
         this.board[r][c].hasQuestionMark = true;
       } else if (this.board[r][c].hasQuestionMark === true) {
         this.board[r][c].hasQuestionMark = false;
+        console.log('questionmark working?');
       } else {
         this.board[r][c].hasFlag = true;
+        console.log('nothing working?');
       }
     }
   }
