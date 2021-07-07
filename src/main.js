@@ -7,8 +7,8 @@ class GameBoard {
     this.colNum = colNum;
     this.bombNum = bombNum;
     this.flagPlanted = 0;
-    this.complete = false;
-    this.numOfOpenCells = rowNum * colNum - bombNum;
+    this.numOfNonBombCells = rowNum * colNum - bombNum;
+    this.numofOpenCells = 0;
     this.generateBoard();
   }
 
@@ -36,6 +36,36 @@ class GameBoard {
     this.bombDetector();
   }
 
+  getNeighbors (r, c) {
+    const neighbors = [];
+
+    if (r >= 1 && c - 1 >= 1 && r <= this.rowNum && c - 1 <= this.colNum) {
+      neighbors.push(this.board[r][c - 1]);
+    }
+    if (r >= 1 && c + 1 >= 1 && r <= this.rowNum && c + 1 <= this.colNum) {
+      neighbors.push(this.board[r][c + 1]);
+    }
+    if (r - 1 >= 1 && c >= 1 && r - 1 <= this.rowNum && c <= this.colNum) {
+      neighbors.push(this.board[r - 1][c]);
+    }
+    if (r + 1 >= 1 && c >= 1 && r + 1 <= this.rowNum && c <= this.colNum) {
+      neighbors.push(this.board[r + 1][c]);
+    }
+    if (r - 1 >= 1 && c - 1 >= 1 && r - 1 <= this.rowNum && c - 1 <= this.colNum) {
+      neighbors.push(this.board[r - 1][c - 1]);
+    }
+    if (r + 1 >= 1 && c + 1 >= 1 && r + 1 <= this.rowNum && c + 1 <= this.colNum) {
+      neighbors.push(this.board[r + 1][c + 1]);
+    }
+    if (r + 1 >= 1 && c - 1 >= 1 && r + 1 <= this.rowNum && c - 1 <= this.colNum) {
+      neighbors.push(this.board[r + 1][c - 1]);
+    }
+    if (r - 1 >= 1 && c + 1 >= 1 && r - 1 <= this.rowNum && c + 1 <= this.colNum) {
+      neighbors.push(this.board[r - 1][c + 1]);
+    }
+    return neighbors;
+  }
+
   bombDetector () {
     for (let r = 1; r <= this.rowNum; r++) {
       for (let c = 1; c <= this.colNum; c++) {
@@ -54,7 +84,23 @@ class GameBoard {
   }
 
   clearing (r, c) {
-    this.board[r][c + 1].isVisible = true;
+    // check if cell next to us is visible
+    // change the status
+    // check if that cell is outside of our range
+    // if not, update our overall count
+    // check if that cell has adjacent bombs
+    // if not, then run clearing again starting with that cell as the center point
+
+    if (this.board[r][c + 1].isVisible === false) {
+      this.board[r][c + 1].isVisible = true;
+      if (r >= 1 || c >= 1 || r <= this.rowNum || c <= this.colNum) {
+        this.numofOpenCells++;
+        if (this.board[r][c + 1].adjacentBombs === 0) {
+          this.clearing(r, c + 1);
+        }
+      }
+    }
+
     this.board[r - 1][c].isVisible = true;
     this.board[r + 1][c].isVisible = true;
     this.board[r][c - 1].isVisible = true;
@@ -62,9 +108,7 @@ class GameBoard {
     this.board[r + 1][c + 1].isVisible = true;
     this.board[r + 1][c - 1].isVisible = true;
     this.board[r - 1][c + 1].isVisible = true;
-    if (this.board[r][c + 1].adjacentBombs === 0) {
-      this.clearing(r, c + 1);
-    }
+
     if (this.board[r - 1][c].adjacentBombs === 0) {
       this.clearing(r - 1, c);
     }
@@ -96,6 +140,32 @@ class GameBoard {
         this.clearing(r, c);
       }
       this.board[r][c].isVisible = true;
+      this.numofOpenCells++;
+    }
+  }
+
+  markCell (r, c) {
+    if (this.board[r][c].isVisible === false) {
+      if (this.board[r][c].hasFlag === true) {
+        this.board[r][c].hasFlag = false;
+        this.board[r][c].hasQuestionMark = true;
+      } else if (this.board[r][c].hasQuestionMark === true) {
+        this.board[r][c].hasQuestionMark = false;
+      } else {
+        this.board[r][c].hasFlag = true;
+      }
+    }
+  }
+
+  checkWinGame () {
+    if (this.numOfNonBombCells === this.numofOpenCells) {
+      alert('you win!');
+    }
+  }
+
+  checkLoseGame (r, c) {
+    if (this.board[r][c].isBomb === true) {
+      alert('you lose!');
     }
   }
 }
