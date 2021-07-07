@@ -11,6 +11,7 @@ export class GameBoard {
     this.generateBoard();
   }
 
+  //tested
   generateBoard () {
     // this will create a board with dimension rowNum by colNum of default cells
     for (let r = 0; r < this.rowNum + 2; r++) {
@@ -35,53 +36,50 @@ export class GameBoard {
     this.bombDetector();
   }
 
+  //tested
   getNeighbors (r, c) {
     const neighbors = [];
 
-    if (r >= 1 && c - 1 >= 1 && r <= this.rowNum && c - 1 <= this.colNum) {
-      neighbors.push([this.board[r][c - 1], r, c - 1]);
+    const isCellOnBorder = (row, col) => {
+      return (
+        row < 1 ||
+        col < 1 ||
+        row > this.rowNum ||
+        col > this.colNum
+      );
+    };
+
+    const isCurrentCell = (row, col) => {
+      return row === r && col === c;
+    };
+
+    for (let row = r - 1; row <= r + 1; row++) {
+      for (let col = c - 1; col <= c + 1; col++) {
+        if (isCurrentCell(row, col) || isCellOnBorder(row, col)) {
+          continue;
+        }
+
+        neighbors.push([this.board[row][col], row, col]);
+      }
     }
-    if (r >= 1 && c + 1 >= 1 && r <= this.rowNum && c + 1 <= this.colNum) {
-      neighbors.push([this.board[r][c + 1], r, c + 1]);
-    }
-    if (r - 1 >= 1 && c >= 1 && r - 1 <= this.rowNum && c <= this.colNum) {
-      neighbors.push([this.board[r - 1][c], r - 1, c]);
-    }
-    if (r + 1 >= 1 && c >= 1 && r + 1 <= this.rowNum && c <= this.colNum) {
-      neighbors.push([this.board[r + 1][c], r + 1, c]);
-    }
-    if (r - 1 >= 1 && c - 1 >= 1 && r - 1 <= this.rowNum && c - 1 <= this.colNum) {
-      neighbors.push([this.board[r - 1][c - 1], r - 1, c - 1]);
-    }
-    if (r + 1 >= 1 && c + 1 >= 1 && r + 1 <= this.rowNum && c + 1 <= this.colNum) {
-      neighbors.push([this.board[r + 1][c + 1], r + 1, c + 1]);
-    }
-    if (r + 1 >= 1 && c - 1 >= 1 && r + 1 <= this.rowNum && c - 1 <= this.colNum) {
-      neighbors.push([this.board[r + 1][c - 1], r + 1, c - 1]);
-    }
-    if (r - 1 >= 1 && c + 1 >= 1 && r - 1 <= this.rowNum && c + 1 <= this.colNum) {
-      neighbors.push([this.board[r - 1][c + 1], r - 1, c + 1]);
-    }
+
     return neighbors;
   }
 
+  //tested
   bombDetector () {
     for (let r = 1; r <= this.rowNum; r++) {
       for (let c = 1; c <= this.colNum; c++) {
-        if (this.board[r][c].isBomb === true) {
-          this.board[r][c - 1].adjacentBombs++;
-          this.board[r][c + 1].adjacentBombs++;
-          this.board[r - 1][c].adjacentBombs++;
-          this.board[r + 1][c].adjacentBombs++;
-          this.board[r - 1][c - 1].adjacentBombs++;
-          this.board[r + 1][c + 1].adjacentBombs++;
-          this.board[r + 1][c - 1].adjacentBombs++;
-          this.board[r - 1][c + 1].adjacentBombs++;
-        }
+        if (this.board[r][c].isBomb === false) continue;
+
+        this.getNeighbors(r, c).forEach(neighbor => {
+          neighbor[0].adjacentBombs++;
+        });
       }
     }
   }
-
+  
+  //tested
   clearing (r, c) {
     const neighborCells = this.getNeighbors(r, c);
 
@@ -95,18 +93,6 @@ export class GameBoard {
       }
     });
   }
-
-  /*
-  board = [
-    [0, 0, 0, 0, 0, 0, 0],
-    [0, 0, 0, 0, 0, 0, 0],
-    [0, x, x, x, x, x, 0],
-    [0, 2, 3, 3, 3, 2, 0],
-    [0, 0, 0, 0, 0, 0, 0],
-    [0, 0, 0, 0, 0, 0, 0],
-    [0, 0, 0, 0, 0, 0, 0],
-  ]
-  */
 
   checkCell (r, c) {
     if (this.board[r][c].isVisible === false && this.board[r][c].hasFlag === false) {
