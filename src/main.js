@@ -1,3 +1,4 @@
+import 'regenerator-runtime';
 import './styles/main.css';
 import $ from 'jquery';
 import { GameBoard } from './lib/GameBoard';
@@ -63,7 +64,7 @@ const addEventListeners = (game) => {
     addEventListeners(game);
   });
 
-  elCells.on('click', function (event) {
+  elCells.on('click', async function (event) {
     const el = $(this);
     const row = el.data('row');
     const col = el.data('col');
@@ -73,6 +74,23 @@ const addEventListeners = (game) => {
     renderBoard(game);
     renderStats(game);
     addEventListeners(game);
+
+    if (game.state !== 'playing') {
+      await new Promise(resolve => {
+        setTimeout(resolve, 100);
+      });
+
+      if (game.state === 'won') {
+        alert('You have won!');
+      } else {
+        alert('You have lost!');
+      }
+
+      game.initialize();
+      renderBoard(game);
+      renderStats(game);
+      addEventListeners(game);
+    }
   });
 
   elCells.on('contextmenu', function (event) {

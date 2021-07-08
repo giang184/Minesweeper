@@ -12,6 +12,8 @@ export class GameBoard {
     this.numOfNonBombCells = this.rowNum * this.colNum - this.bombNum;
     this.numofOpenCells = 0;
     this.generateBoard();
+
+    this.state = 'playing';
   }
 
   // tested
@@ -102,12 +104,12 @@ export class GameBoard {
 
   checkCell (r, c) {
     if (this.board[r][c].isVisible === false && this.board[r][c].hasFlag === false) {
+      this.board[r][c].isVisible = true;
       if (this.checkLoseGame(r, c) === true) {
         return;
       }
 
       this.numofOpenCells++;
-      this.board[r][c].isVisible = true;
       this.numOfNonBombCells--;
 
       if (this.board[r][c].adjacentBombs === 0) {
@@ -138,15 +140,13 @@ export class GameBoard {
 
   checkWinGame () {
     if (this.numOfNonBombCells === 0) {
-      alert('you win!');
-      this.initialize();
+      this.state = 'won';
     }
   }
 
   checkLoseGame (r, c) {
     if (this.board[r][c].isBomb === true) {
-      alert('you lose!');
-      this.initialize();
+      this.state = 'lose';
       return true;
     }
   }
