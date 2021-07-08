@@ -112,12 +112,14 @@ export class GameBoard {
         console.log('flag working?');
         this.board[r][c].hasFlag = false;
         this.board[r][c].hasQuestionMark = true;
+        this.flagPlanted--;
       } else if (this.board[r][c].hasQuestionMark === true) {
         this.board[r][c].hasQuestionMark = false;
         console.log('questionmark working?');
       } else {
         this.board[r][c].hasFlag = true;
-        console.log('nothing working?');
+        this.flagPlanted++;
+        console.log(this.flagPlanted);
       }
     }
   }

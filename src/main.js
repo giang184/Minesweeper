@@ -5,12 +5,8 @@ import { GameBoard } from './lib/GameBoard';
 const renderStats = (game) => {
   const elStatsFlagsPlanted = $('#output-flags-planted');
   const elStatsOpenCells = $('#output-open-cells');
-
-  const flagsPlanted = 0; // todo: actually get this later
-  const openCells = game.numofOpenCells; // todo: actually get this later
-
-  elStatsFlagsPlanted.text(flagsPlanted);
-  elStatsOpenCells.text(openCells);
+  elStatsFlagsPlanted.text(game.flagPlanted);
+  elStatsOpenCells.text(game.numofOpenCells);
 };
 
 const renderBoard = (game) => {

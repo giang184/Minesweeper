@@ -1,25 +1,25 @@
-const path = require('path')
-const HtmlWebpackPlugin = require('html-webpack-plugin')
-const { CleanWebpackPlugin } = require('clean-webpack-plugin')
+const path = require('path');
+const HtmlWebpackPlugin = require('html-webpack-plugin');
+const { CleanWebpackPlugin } = require('clean-webpack-plugin');
 
 module.exports = {
   entry: './src/main.js',
   output: {
     filename: 'bundle.js',
-    path: path.resolve(__dirname, 'dist'),
+    path: path.resolve(__dirname, 'dist')
   },
   resolve: {
     alias: {
-      '@': path.resolve(__dirname, 'src'),
-    },
+      '@': path.resolve(__dirname, 'src')
+    }
   },
   plugins: [
     new CleanWebpackPlugin(),
     new HtmlWebpackPlugin({
       title: 'Minesweeper',
       template: './src/index.html',
-      inject: 'body',
-    }),
+      inject: 'body'
+    })
   ],
   module: {
     rules: [
@@ -27,21 +27,21 @@ module.exports = {
         test: /\.css$/,
         use: [
           'style-loader',
-          'css-loader',
-        ],
+          'css-loader'
+        ]
       },
       {
         test: /\.js/,
         exclude: /node_modules/,
         loader: 'eslint-loader',
-        enforce: 'pre',
+        enforce: 'pre'
       },
       {
         test: /\.js/,
         exclude: /node_modules/,
-        loader: 'babel-loader',
-      },
-    ],
+        loader: 'babel-loader'
+      }
+    ]
   },
 
   devtool: 'eval-source-map',
@@ -51,7 +51,7 @@ module.exports = {
     watchFiles: [
       'src/**/*.js',
       'src/**/*.css',
-      'src/**/*.html',
-    ],
-  },
-}
+      'src/**/*.html'
+    ]
+  }
+};
