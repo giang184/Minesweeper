@@ -86,6 +86,8 @@ export class GameBoard {
     neighborCells.forEach((element) => { // [c,c,c,c,c]
       if (element[0].isVisible === false) {
         element[0].isVisible = true;
+        element[0].hasQuestionMark = false;
+
         this.numofOpenCells++;
         if (element[0].adjacentBombs === 0) {
           this.clearing(element[1], element[2]);
@@ -96,13 +98,16 @@ export class GameBoard {
 
   checkCell (r, c) {
     if (this.board[r][c].isVisible === false && this.board[r][c].hasFlag === false) {
-      this.checkWinGame();
       this.checkLoseGame(r, c);
+
+      this.numofOpenCells++;
       this.board[r][c].isVisible = true;
+
       if (this.board[r][c].adjacentBombs === 0) {
         this.clearing(r, c);
       }
-      this.numofOpenCells++;
+
+      this.checkWinGame();
     }
   }
 

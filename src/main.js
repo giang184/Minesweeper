@@ -10,6 +10,7 @@ const renderStats = (game) => {
 };
 
 const renderBoard = (game) => {
+  console.log('current board state', game.board);
   const elBoard = $('#game-board');
   elBoard.css('gridTemplateColumns', `repeat(${game.colNum}, var(--cell-size))`);
 
@@ -21,41 +22,43 @@ const renderBoard = (game) => {
       // ternary operator : condition ? valueIfTrue : valueIfFalse
       // const cellContent = cell.isBomb ? '.' : cell.adjacentBombs;
 
-      if (cell.isVisible) {
-        let cellContent = '';
-        if (cell.isBomb) {
-          cellContent = '.';
-        } else {
-          cellContent = cell.adjacentBombs;
-        }
-        elBoard.append(`
-          <div class="cell" data-row="${r}" data-col="${c}">
-            ${cellContent}
-          </div>`
-        );
+      let cellContent = '';
+      if (cell.isVisible && cell.isBomb) {
+        cellContent = '<img src="assets/bomb.svg">';
       } else if (cell.hasFlag) {
-        elBoard.append(`
-        <div class="cell" data-row="${r}" data-col="${c}">
-          f
-        </div>`);
+        cellContent = '<img src="assets/flag.svg">';
       } else if (cell.hasQuestionMark) {
-        elBoard.append(`
-      <div class="cell" data-row="${r}" data-col="${c}">
-          ?
-      </div>`);
-      } else {
-        elBoard.append(`
-          <div class="cell" data-row="${r}" data-col="${c}">
-            
-          </div>`
-        );
+        cellContent = '<img src="assets/question.svg">';
+      } else if (cell.isVisible) {
+        cellContent = cell.adjacentBombs;
       }
+
+      elBoard.append(`
+        <div class="cell" data-row="${r}" data-col="${c}">
+          ${cellContent}
+        </div>
+      `);
     }
   }
 };
 
 const addEventListeners = (game) => {
   const elCells = $('.cell');
+  const eldifficulty = $('#difficulty');
+  eldifficulty.on('change', function (event) {
+    const choice = $('#difficulty').val();
+    if (choice === 'easy') {
+      game = new GameBoard(5, 5, 5);
+    } else if (choice === 'medium') {
+      game = new GameBoard(8, 8, 15);
+    } else {
+      game = new GameBoard(10, 10, 45);
+    }
+
+    renderBoard(game);
+    renderStats(game);
+    addEventListeners(game);
+  });
 
   elCells.on('click', function (event) {
     const el = $(this);
@@ -84,22 +87,10 @@ const addEventListeners = (game) => {
 };
 
 const main = () => {
-  const game = new GameBoard(5, 7, 1);
-  console.log(game);
-
+  const game = new GameBoard(5, 5, 5);
   renderBoard(game);
   renderStats(game);
   addEventListeners(game);
 };
 
 main();
-
-// do not show cells right away
-// handle when user left clicks
-// handle when user right clicks
-// redraw board on changes
-// show stats
-// open cells
-// flags planted
-
-// have easy/medium/hard mode
