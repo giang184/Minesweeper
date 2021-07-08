@@ -116,3 +116,4 @@ const main = () => {
 };
 
 main();
+console.log('hi');
