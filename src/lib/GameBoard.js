@@ -1,12 +1,15 @@
-
 export class GameBoard {
   constructor (rowNum, colNum, bombNum) {
-    this.board = [];
     this.rowNum = rowNum;
     this.colNum = colNum;
     this.bombNum = bombNum;
+    this.initialize();
+  }
+
+  initialize () {
+    this.board = [];
     this.flagPlanted = 0;
-    this.numOfNonBombCells = rowNum * colNum - bombNum;
+    this.numOfNonBombCells = this.rowNum * this.colNum - this.bombNum;
     this.numofOpenCells = 0;
     this.generateBoard();
   }
@@ -86,6 +89,7 @@ export class GameBoard {
     neighborCells.forEach((element) => { // [c,c,c,c,c]
       if (element[0].isVisible === false) {
         element[0].isVisible = true;
+        this.numOfNonBombCells--;
         element[0].hasQuestionMark = false;
 
         this.numofOpenCells++;
@@ -98,10 +102,13 @@ export class GameBoard {
 
   checkCell (r, c) {
     if (this.board[r][c].isVisible === false && this.board[r][c].hasFlag === false) {
-      this.checkLoseGame(r, c);
+      if (this.checkLoseGame(r, c) === true) {
+        return;
+      }
 
       this.numofOpenCells++;
       this.board[r][c].isVisible = true;
+      this.numOfNonBombCells--;
 
       if (this.board[r][c].adjacentBombs === 0) {
         this.clearing(r, c);
@@ -130,14 +137,17 @@ export class GameBoard {
   }
 
   checkWinGame () {
-    if (this.numOfNonBombCells === this.numofOpenCells) {
+    if (this.numOfNonBombCells === 0) {
       alert('you win!');
+      this.initialize();
     }
   }
 
   checkLoseGame (r, c) {
     if (this.board[r][c].isBomb === true) {
       alert('you lose!');
+      this.initialize();
+      return true;
     }
   }
 }

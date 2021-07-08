@@ -5,8 +5,11 @@ import { GameBoard } from './lib/GameBoard';
 const renderStats = (game) => {
   const elStatsFlagsPlanted = $('#output-flags-planted');
   const elStatsOpenCells = $('#output-open-cells');
+  const elStatsCellsLeft = $('#output-cells-left');
+
   elStatsFlagsPlanted.text(game.flagPlanted);
   elStatsOpenCells.text(game.numofOpenCells);
+  elStatsCellsLeft.text(game.numOfNonBombCells);
 };
 
 const renderBoard = (game) => {
@@ -88,6 +91,7 @@ const addEventListeners = (game) => {
 
 const main = () => {
   const game = new GameBoard(5, 5, 5);
+
   renderBoard(game);
   renderStats(game);
   addEventListeners(game);
