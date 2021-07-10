@@ -108,7 +108,7 @@ const addEventListeners = (game) => {
 };
 
 const main = () => {
-  const game = new GameBoard(5, 5, 5);
+  const game = new GameBoard(8, 8, 10);
 
   renderBoard(game);
   renderStats(game);
