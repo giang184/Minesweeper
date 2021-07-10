@@ -52,11 +52,11 @@ const addEventListeners = (game) => {
   eldifficulty.on('change', function (event) {
     const choice = $('#difficulty').val();
     if (choice === 'easy') {
-      game = new GameBoard(5, 5, 5);
+      game = new GameBoard(8, 8, 10);
     } else if (choice === 'medium') {
-      game = new GameBoard(8, 8, 15);
+      game = new GameBoard(12, 12, 25);
     } else {
-      game = new GameBoard(10, 10, 45);
+      game = new GameBoard(15, 15, 40);
     }
 
     renderBoard(game);
