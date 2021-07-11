@@ -21,7 +21,7 @@
   align-items: center;
   justify-content: center;
 
-  background-color: #CCC;
+  background-color: rgb(146, 134, 179);
 }
 
 dl {
@@ -44,4 +44,5 @@ dd {
   height: 100%;
   padding: 10%;
   box-sizing: border-box;
+  background-color: aliceblue;
 }

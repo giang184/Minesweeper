@@ -3,14 +3,15 @@ export class GameBoard {
     this.rowNum = rowNum;
     this.colNum = colNum;
     this.bombNum = bombNum;
+    this.flagPlanted = 0;
     this.initialize();
   }
 
   initialize () {
     this.board = [];
-    this.flagPlanted = 0;
     this.numOfNonBombCells = this.rowNum * this.colNum - this.bombNum;
     this.numofOpenCells = 0;
+    this.flagPlanted = 0;
     this.generateBoard();
 
     this.state = 'playing';

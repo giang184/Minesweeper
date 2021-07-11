@@ -5,11 +5,11 @@ import { GameBoard } from './lib/GameBoard';
 
 const renderStats = (game) => {
   const elStatsFlagsPlanted = $('#output-flags-planted');
-  const elStatsOpenCells = $('#output-open-cells');
+  const elStatsBombsLeft = $('#output-bombs-left');
   const elStatsCellsLeft = $('#output-cells-left');
 
   elStatsFlagsPlanted.text(game.flagPlanted);
-  elStatsOpenCells.text(game.numofOpenCells);
+  elStatsBombsLeft.text(game.bombNum - game.flagPlanted);
   elStatsCellsLeft.text(game.numOfNonBombCells);
 };
 
@@ -34,7 +34,25 @@ const renderBoard = (game) => {
       } else if (cell.hasQuestionMark) {
         cellContent = '<img src="assets/question.svg">';
       } else if (cell.isVisible) {
-        cellContent = cell.adjacentBombs;
+        if (cell.adjacentBombs === 0) {
+          cellContent = '<img src="assets/0.PNG">';
+        } else if (cell.adjacentBombs === 1) {
+          cellContent = '<img src="assets/1.PNG">';
+        } else if (cell.adjacentBombs === 2) {
+          cellContent = '<img src="assets/2.PNG">';
+        } else if (cell.adjacentBombs === 3) {
+          cellContent = '<img src="assets/3.PNG">';
+        } else if (cell.adjacentBombs === 4) {
+          cellContent = '<img src="assets/4.PNG">';
+        } else if (cell.adjacentBombs === 5) {
+          cellContent = '<img src="assets/5.PNG">';
+        } else if (cell.adjacentBombs === 6) {
+          cellContent = '<img src="assets/6.PNG">';
+        } else if (cell.adjacentBombs === 7) {
+          cellContent = '<img src="assets/7.PNG">';
+        } else {
+          cellContent = '<img src="assets/8.PNG">';
+        }
       }
 
       elBoard.append(`
