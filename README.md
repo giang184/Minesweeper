@@ -18,7 +18,8 @@
 7. babel transpiler
 8. NPM
 ---
-
+### Installation Instructions
+* To preview, click on my _[live site](https://giang184.github.io/teamweek---minesweeper/)_ 
 ### Installation Instructions
 1. clone the repository to your local drive
 2. Enter downloaded directory
