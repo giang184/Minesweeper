@@ -46,3 +46,13 @@ dd {
   box-sizing: border-box;
   background-color: aliceblue;
 }
+
+.container {
+  margin-top: 20px;
+  background-color: rgb(241, 229, 201);
+  padding-bottom: 20px;
+}
+
+body {
+  background-color: rgb(216, 149, 149);
+}
