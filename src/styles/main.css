@@ -48,11 +48,14 @@ dd {
 }
 
 .container {
-  margin-top: 20px;
   background-color: rgb(241, 229, 201);
-  padding-bottom: 20px;
+  padding-top: 30px;
+  padding-left: 50px;
+  padding-bottom: 100px;
 }
 
 body {
+  background-image: url('https://www.setaswall.com/wp-content/uploads/2017/04/Cinereous-Solid-Color-Background-Wallpaper-5120x2880-340x220.png');
   background-color: rgb(216, 149, 149);
+  padding-top: 50px;
 }
